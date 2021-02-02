@@ -29,14 +29,12 @@ pipelines:
       - name: step2
         type: Bash
         configuration:
-          inputResources:
-            - name: cron_5min
           integrations:
             - name: git_ben
         execution:
-         onStart:
-           # Restore the file from the previous run of the pipeline
-           - restore_pipeline_files pipeline_file sample.txt
-           - cat sample.txt
-         onExecute:
-           echo "Hello world"
+          onStart:
+            # Restore the file from the previous run of the pipeline
+            - restore_pipeline_files pipeline_file sample.txt
+            - cat sample.txt
+          onExecute:
+            echo "Hello world"
