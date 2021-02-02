@@ -17,7 +17,7 @@ pipelines:
           inputResources:
             - name: cron_10min
           integrations:
-            - name: git_ben
+            - name: ben_git
         execution:
           onExecute:
             - touch sample.txt
@@ -29,8 +29,6 @@ pipelines:
       - name: step2
         type: Bash
         configuration:
-          integrations:
-            - name: git_ben
         execution:
           onStart:
             # Restore the file from the previous run of the pipeline
