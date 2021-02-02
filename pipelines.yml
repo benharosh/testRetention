@@ -2,7 +2,7 @@ resources:
   - name: cron_10min
     type: CronTrigger
     configuration:
-      interval: "* */10 * * *"
+      interval: "*/5 * * * *"
 
 pipelines:
   - name: testing_retention
@@ -21,18 +21,22 @@ pipelines:
         execution:
           onExecute:
             - touch sample.txt
-            - echo test>sample.txt
-            - add_cache_files sample.txt sample
+            - echo test$run_id>sample.txt
+            - add_cache_files sample.txt sample$run_id
             - add_run_variables sample:$run_id
-            - add_pipeline_files sample.txt pipeline_file
+            - add_pipeline_files sample.txt pipeline_file$run_id
 
       - name: step2
         type: Bash
         configuration:
+          inputSteps:
+            - name: step1
         execution:
           onStart:
             # Restore the file from the previous run of the pipeline
-            - restore_pipeline_files pipeline_file sample.txt
+            - restore_pipeline_files pipeline_file$run_id sample.txt
             - cat sample.txt
           onExecute:
-            echo "Hello world"
+            - echo test>sample.txt
+            - add_cache_files sample.txt sample2
+            - echo "Hello world"
