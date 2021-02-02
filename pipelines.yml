@@ -23,7 +23,7 @@ pipelines:
             - touch sample.txt
             - echo test$run_id>sample.txt
             - add_cache_files sample.txt sample$run_id
-            - add_run_variables sample:$run_id
+            - add_run_variables sample=$run_id
             - add_pipeline_files sample.txt pipeline_file$run_id
 
       - name: step2
@@ -38,5 +38,6 @@ pipelines:
             - cat sample.txt
           onExecute:
             - echo test>sample.txt
+            - add_run_variables sample2=$run_id
             - add_cache_files sample.txt sample2
             - echo "Hello world"
